@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Full Mock Test</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f4f4f5; }
+        ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+        /* Clean Minimalist Highlights */
+        mark.ielts-highlight { border-radius: 2px; cursor: pointer; transition: opacity 0.2s; }
+        mark.ielts-highlight:hover { opacity: 0.8; }
+        
+        .question-target { transition: background-color 0.5s ease; scroll-margin-top: 20px; }
+        .question-target.highlight-scroll { background-color: #e4e4e7; }
+
+        /* Radio Buttons */
+        .mc-opt-btn.active { border-color: #000000 !important; background-color: #f4f4f5 !important; }
+        .mc-opt-btn.active .radio-circle { border-color: #000000 !important; }
+        .mc-opt-btn.active .radio-dot { transform: scale(1) !important; opacity: 1 !important; }
+
+        /* GRADING CSS CLASSES (GREEN = CORRECT, RED = WRONG) */
+        .graded-correct { background-color: #f0fdf4 !important; border-color: #22c55e !important; color: #15803d !important; }
+        .graded-correct .radio-circle { border-color: #22c55e !important; }
+        .graded-correct .radio-dot { background-color: #22c55e !important; transform: scale(1) !important; opacity: 1 !important; }
+        
+        .graded-wrong { background-color: #fef2f2 !important; border-color: #ef4444 !important; color: #b91c1c !important; text-decoration: line-through; }
+        .graded-wrong .radio-circle { border-color: #ef4444 !important; }
+        .graded-wrong .radio-dot { background-color: #ef4444 !important; transform: scale(1) !important; opacity: 1 !important; }
+        
+        .input-correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; color: #15803d !important; font-weight: bold; }
+        .input-wrong { border-color: #ef4444 !important; background-color: #fef2f2 !important; color: #ef4444 !important; text-decoration: line-through; }
+        
+        .nav-correct { background-color: #22c55e !important; color: white !important; border-color: #16a34a !important; }
+        .nav-wrong { background-color: #ef4444 !important; color: white !important; border-color: #dc2626 !important; text-decoration: line-through; }
+    </style>
+</head>
+<body class="bg-white text-zinc-900 overflow-hidden h-screen flex flex-col font-sans">
+
+    <!-- HEADER -->
+    <header class="bg-black text-white px-6 py-4 flex justify-between items-center border-b-2 border-black z-30 select-none shrink-0">
+        <div class="logo-area">
+            <h1 class="text-lg font-bold tracking-widest uppercase">Reading Test</h1>
+        </div>
+        
+        <div class="flex items-center gap-3 bg-zinc-900 px-4 py-2 rounded border border-zinc-800 font-mono text-base font-bold transition-all" id="countdown-timer">
+            <i class="fa-regular fa-clock text-sm"></i>
+            <span id="timer-display">60:00</span>
+            <button class="text-white hover:opacity-75 transition-opacity ml-2" id="btn-pause-timer" title="Pause / Resume Timer">
+                <i class="fa-solid fa-pause"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="flex bg-zinc-100 border-b border-zinc-200 px-6 gap-1 select-none z-20 shrink-0">
+        <button class="tab-btn active px-6 py-3 text-xs font-bold text-zinc-500 border-b-2 border-transparent uppercase tracking-wider hover:text-black hover:bg-zinc-200 transition-all" data-target="0">Passage 1</button>
+        <button class="tab-btn px-6 py-3 text-xs font-bold text-zinc-500 border-b-2 border-transparent uppercase tracking-wider hover:text-black hover:bg-zinc-200 transition-all" data-target="1">Passage 2</button>
+        <button class="tab-btn px-6 py-3 text-xs font-bold text-zinc-500 border-b-2 border-transparent uppercase tracking-wider hover:text-black hover:bg-zinc-200 transition-all" data-target="2">Passage 3</button>
+    </div>
+
+    <!-- WORKSPACE -->
+    <div class="flex flex-1 overflow-hidden relative" id="workspace-container">
+        
+        <!-- LEFT PANEL: PASSAGES -->
+        <div class="w-1/2 min-w-[25%] max-w-[75%] h-full overflow-y-auto p-10 bg-white border-r border-zinc-200 relative select-text" id="passage-container">
+            
+            <div class="bg-zinc-100 border border-zinc-200 p-3 rounded text-xs text-zinc-700 mb-6 flex items-center gap-2 select-none">
+                <i class="fa-solid fa-circle-info text-black flex-shrink-0"></i>
+                <span><strong>Highlight Tool:</strong> Select any text in the passage or questions to highlight it. Click a highlighted block to remove the highlight.</span>
+            </div>
+
+            <!-- PASSAGE 1 -->
+            <div id="passage-content-0" class="passage-content block">
+                <div class="text-xs uppercase font-bold text-zinc-500 mb-2 tracking-wider">Reading Passage 1</div>
+                <h1 class="font-serif text-3xl font-bold mb-5 pb-3 border-b-2 border-black">Georgia O’Keeffe</h1>
+                <div class="font-serif text-base leading-relaxed text-justify space-y-5 text-black">
+                    <p>For seven decades, Georgia O’Keeffe (1887-1986) was a major figure in American art. Remarkably, she remained independent from shifting art trends and her work stayed true to her own vision, which was based on finding the essential, abstract forms in nature. With exceptionally keen powers of observation and great finesse with a paintbrush, she recorded subtle nuances of colour, shape, and light that enlivened her paintings and attracted a wide audience.</p>
+                    <p>Born in 1887 near Sun Prairie, Wisconsin to cattle breeders Francis and Ida O’Keeffe, Georgia was raised on their farm along with her six siblings. By the time she graduated from high school in 1905, she had determined to make her way as an artist. She studied the techniques of traditional painting at the Art Institute of Chicago school (1905) and the Art Students League of New York (1907-8). After attending university and then training college, she became an art teacher and taught in elementary schools, high schools, and colleges in Virginia, Texas, and South Carolina from 1911 to 1918.</p>
+                    <p>During this period, O’Keeffe began to experiment with creating abstract compositions in charcoal, and produced a series of innovative drawings that led her art in a new direction. She sent some of these drawings to a friend in New York, who showed them to art collector and photographer Alfred Stieglitz in January 1916. Stieglitz was impressed, and exhibited the drawings later that year at his gallery on Fifth Avenue, New York City, where the works of many avant-garde artists and photographers were introduced to the American public.</p>
+                    <p>With Stieglitz’s encouragement and promise of financial support, O’Keeffe arrived in New York in June 1918 to begin a career as an artist. For the next three decades, Stieglitz vigorously promoted her work in twenty-two solo exhibitions and numerous group installations. The two were married in 1924. The ups and downs of their personal and professional relationship were recorded in Stieglitz’s celebrated black-and-white portraits of O’Keeffe, taken over the course of twenty years (1917-37).</p>
+                    <p>By the mid-1920s, O’Keeffe was recognized as one of America’s most important and successful artists, widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York. But most often, she painted botanical subjects, inspired by annual trips to the Stieglitz family summer home. In her magnified images depicting flowers, begun in 1924, O’Keeffe brings the viewer right into the picture.</p>
+                    <p>Enlarging the tiniest details to fill an entire metre-wide canvas emphasized their shapes and lines and made them appear abstract. Such daring compositions helped establish O’Keeffe’s reputation as an innovative modernist.</p>
+                    <p>In 1929, O’Keeffe made her first extended trip to the state of New Mexico. It was a visit that had a lasting impact on her life, and an immediate effect on her work. Over the next two decades she made almost annual trips to New Mexico, staying up to six months there, painting in relative solitude, then returning to New York each winter to exhibit the new work at Stieglitz’s gallery. This pattern continued until she moved permanently to New Mexico in 1949.</p>
+                    <p>There, O’Keeffe found new inspiration: at first, it was the numerous sun-bleached bones she came across in the state’s rugged terrain that sparked her imagination. Two of her earliest and most celebrated Southwestern paintings exquisitely reproduce a cow skull’s weathered surfaces, jagged edges, and irregular openings. Later, she also explored another variation on this theme in her large series of Pelvis pictures, which focused on the contrasts between convex and concave surfaces, and solid and open spaces. However, it was the region’s spectacular landscape, with its unusual geological formations, vivid colours, clarity of light, and exotic vegetation, that held the artist’s imagination for more than four decades. Often, she painted the rocks, cliffs, and mountains in striking close-up, just as she had done with her botanical subjects.</p>
+                    <p>O’Keeffe eventually owned two homes in New Mexico – the first, her summer retreat at Ghost Ranch, was nestled beneath 200-metre cliffs, while the second, used as her winter residence, was in the small town of Abiquiú. While both locales provided a wealth of imagery for her paintings, one feature of the Abiquiú house – the large walled patio with its black door – was particularly inspirational. In more than thirty pictures between 1946 and 1960, she reinvented the patio into an abstract arrangement of geometric shapes.</p>
+                    <p>From the 1950s into the 1970s, O’Keeffe travelled widely, making trips to Asia, the Middle East, and Europe. Flying in planes inspired her last two major series – aerial views of rivers and expansive paintings of the sky viewed from just above clouds. In both series, O’Keeffe increased the size of her canvases, sometimes to mural proportions, reflecting perhaps her newly expanded view of the world. When in 1965 she successfully translated one of her cloud motifs to a monumental canvas measuring 6 metres in length (with the help of assistants), it was an enormous challenge and a special feat for an artist nearing eighty years of age.</p>
+                    <p>The last two decades of the artist’s life were relatively unproductive as ill health and blindness hindered her ability to work. O’Keeffe died in 1986 at the age of ninety-eight, but her rich legacy of some 900 paintings has continued to attract subsequent generations of artists and art lovers who derive inspiration from these very American images.</p>
+                </div>
+            </div>
+
+            <!-- PASSAGE 2 -->
+            <div id="passage-content-1" class="passage-content hidden">
+                <div class="text-xs uppercase font-bold text-zinc-500 mb-2 tracking-wider">Reading Passage 2</div>
+                <h1 class="font-serif text-3xl font-bold mb-5 pb-3 border-b-2 border-black">Adapting to the effects of climate change</h1>
+                
+                <div class="mb-6 question-target" id="q-target-para-A">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph A</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">All around the world, nations are already preparing for, and adapting to, climate change and its impacts. Even if we stopped all CO2 emissions tomorrow, we would continue to see the impact of the CO2 already released since industrial times, with scientists forecasting that global warming would continue for around 40 years. In the meantime, ice caps would continue to melt and sea levels rise. Some countries and regions will suffer more extreme impacts from these changes than others. It’s in these places that innovation is thriving.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-B">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph B</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">In Miami Beach, Florida, USA, seawater isn’t just breaching the island city’s walls, it’s seeping up through the ground, so the only way to save the city is to lift it up above sea level. Starting in the lowest and most vulnerable neighbourhoods, roads have been raised by as much as 61 centimetres. The elevation work was carried out as part of Miami Beach’s ambitious but much-needed stormwater-management programme. In addition to the road adaptations, the city has set up new pumps that can remove up to 75,000 litres of water per minute. In the face of floods, climate-mitigation strategies have often been overlooked, says Yanira Pineda, a senior sustainability coordinator. She knows that they’re essential and that the job is far from over. ‘We know that in 20, 30, 40 years, we’ll need to go back in there and adjust to the changing environment,’ she says.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-C">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph C</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Seawalls are a staple strategy for many coastal communities, but on the soft, muddy northern shores of Java, Indonesia, they frequently collapse, further exacerbating coastal erosion. There have been many attempts to restore the island’s coastal mangroves: ecosystems of trees and shrubs that help defend coastal areas by trapping sediment in their net-like root systems, elevating the sea bed and dampening the energy of waves and tidal currents. But Susanna Tol of the not-for-profit organisation Wetlands International says that, while hugely popular, the majority of mangrove-planting projects fail. So, Wetlands International started out with a different approach, building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back naturally. The programme has seen moderate success, mainly in areas with less subsidence. “Unfortunately, traditional infrastructure is often single-solution focused,’ says Tol. ‘For long-term success, it’s critical that we transition towards multifunctional approaches that embed natural processes and that engage and benefit communities and local decision-makers.”</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-D">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph D</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">As the floodwaters rose in the rice fields of the Mekong Delta in September 2018, four small houses rose with them. Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float. The modifications were made by the Buoyant Foundation Project, a not-for-profit organisation that has been researching and retrofitting amphibious houses since 2006. ‘When I started this,’ explains founder Elizabeth English, ‘climate change was not on the tip of everybody’s tongue, but this technology is becoming necessary in places that didn’t previously need it.’ It’s much cheaper than permanently elevating houses, English explains – about a third of what it would cost to completely replace a building’s foundations. It also avoids the problem of taller houses being at greater risk from wind damage. Another plus comes from the fact that amphibious structures can be sensitively adapted to meet cultural needs and match the kind of houses that are already common in a community.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-E">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph E</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Bangladesh is especially vulnerable to climate change. Most of the country is less than a metre above sea level and 80 per cent of its land lies on floodplains. ‘Almost 35 million people living on the coastal belt of Bangladesh are currently affected by soil and water salinity,’ says Raisa Chowdhury of the international development organisation ICCO Cooperation. Rather than fighting against it, one project is helping communities adapt to salt-affected soils. ICCO Cooperation has been working with 10,000 farmers in Bangladesh to start cultivating naturally salt-tolerant crops in the region. Certain varieties of carrot, potato, kohlrabi, cabbage and beetroot have been found to be better suited to salty soil than the rice and wheat that is typically grown there. Chowdhury says that the results are very visible, comparing a barren plot of land to the ‘beautiful, lush green vegetable garden’ sitting beside it, in which he and his team have been working with the farmers. Since the project began, farmers trained in saline agriculture have reported increases of two to three more harvests per year.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-F">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph F</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Greg Spotts from Los Angeles (LA) in the USA is chief sustainability officer of the city’s street services department. He leads the Cool Streets LA programme, a series of pilot projects, which include the planting of trees and the installation of a ‘cool pavement’ system, designed to help reach the city’s goal of bringing down its average temperature by 1.5°C. ‘Urban cooling is literally a matter of life and death for our future in LA,’ says Spotts. Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover in three of the city’s neighbourhoods and covered them with a light-grey, light-reflecting coating, which had already been shown to lower road surface temperature in Los Angeles by 6°C. Spotts says one of these streets, in the Winnetka neighbourhood of San Fernando Valley, can now be seen as a pale crescent, the only cool spot on an otherwise red thermal image, from the International Space Station.</p>
+                </div>
+            </div>
+
+            <!-- PASSAGE 3 -->
+            <div id="passage-content-2" class="passage-content hidden">
+                <div class="text-xs uppercase font-bold text-zinc-500 mb-2 tracking-wider">Reading Passage 3</div>
+                <h1 class="font-serif text-3xl font-bold mb-5 pb-3 border-b-2 border-black">A new role for livestock guard dogs</h1>
+                <div class="italic text-zinc-700 border-l-2 border-black pl-4 mb-6 leading-relaxed">
+                    Livestock guard dogs, traditionally used to protect farm animals from predators, are now being used to protect the predators themselves
+                </div>
+                
+                <div class="mb-6 question-target" id="q-target-para-A-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph A</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">For thousands of years, livestock guard dogs worked alongside shepherds to protect their sheep, goats and cattle from predators such as wolves and bears. But in the 19th and 20th centuries, when such predators were largely exterminated, most guard dogs lost their jobs. In recent years, however, as increased efforts have been made to protect wild animals, predators have become more widespread again. As a result, farmers once more need to protect their livestock, and guard dogs are enjoying an unexpected revival.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-B-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph B</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Today there are around 50 breeds of guard dogs on duty in various parts of the world. These dogs are raised from an early age with the animals they will be watching and eventually these animals become the dog’s family. The dogs will place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators, but often their mere presence is sufficient. ‘Their initial training is to make them understand that livestock is going to be their life,’ says Dan Macon, a shepherd with three guard dogs. ‘A fluffy white puppy is fun to be around, but too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog.’</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-C-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph C</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">The evidence indicates that guard dogs are highly effective. For example, in Portugal, biologist Silvia Ribeiro has found that more than 90 per cent of the farmers participating in a programme to train and use guard dogs to protect their herds against attack from wolves rate the performance of the dogs as very good or excellent. In a study carried out in Australia by Linda van Bommel and Chris Johnson at the University of Tasmania, more than 65 per cent of herders reported that predation stopped completely after they got the dogs, and almost all the rest saw a decrease in attacks. ‘If they are managed and used properly, livestock guard dogs are the most efficient control method that we have in terms of the amount of livestock that they save from predation,’ says van Bommel.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-D-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph D</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">But today’s guard dogs also have a new role – to help preserve the predators. It is hoped that reductions in livestock losses can make farmers more tolerant of predators and less likely to kill them. In Namibia, more than 90 per cent of cheetahs live outside protected areas, close to humans raising livestock. As a result, the cheetahs are often held responsible for animal losses, and large numbers have been killed by farmers. When guard dogs were introduced, more than 90 per cent of farmers reported a dramatic reduction in livestock losses, and said that as a result they were less likely to kill predators. Julie Young, at Utah State University in the US, believes this result applies widely. “There is common ground from the livestock perspective and from the conservation perspective,’ she says. ‘If ranchers don’t have a dead cow, they will not make a call to apply for a permit to kill a wolf.”</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-E-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph E</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Looking at all the published evidence, Bethany Smith at Nottingham Trent University in the UK found that up to 88 per cent of farmers said they no longer killed predators after using dogs – but warned that such self-reported results must be taken with a pinch of salt. What’s more, it is possible that livestock guard dogs merely displace predators to unprotected neighbouring properties, where their fate isn’t recorded. ‘In some regions, we work with almost every farmer, but in others only one or two have dogs,’ says Ribeiro. ‘If we are not working with everybody, we are transferring the wolf pressure to the neighbour’s herd and he can use poison and kill an entire pack of wolves.’</p>
+                </div>
+                
+                <div class="mb-6 question-target" id="q-target-para-F-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph F</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">Another concern is whether there may be unintended ecological effects of using guard dogs. Studies suggest that reducing deaths of one type of predator may have a negative impact on other species. The extent of this problem isn’t known, but the consequences are clear in Namibia. Cheetahs aren’t the only species that cause sheep and goat losses there: other predators also attack livestock. In 2015, researchers reported that in spite of the impact farmers obtaining guard dogs had on cheetahs, the number of jackals killed by dogs and people actually increased. Guard dogs have other ecological impacts too. They have been found to spread diseases to wild animals, including endangered Ethiopian wolves. They may also compete with other carnivores for food. And by creating a ‘landscape of fear’, their mere presence can influence the behaviour of prey animals.</p>
+                </div>
+
+                <div class="mb-6 question-target" id="q-target-para-G-p3">
+                    <div class="border-l-4 border-black pl-4 mb-3">
+                        <div class="text-sm font-bold uppercase tracking-widest text-zinc-800">Paragraph G</div>
+                    </div>
+                    <p class="font-serif text-base leading-relaxed text-justify text-black">The evidence so far, however, indicates that these consequences aren’t always negative. Guard dogs can deliver unexpected benefits by protecting vulnerable wildlife from predators. For example, their presence has been found to protect birds which build their nests on the ground in fields, where foxes would normally raid them. Indeed, Australian researchers are now using dogs to enhance biodiversity and create refuges for species threatened by predation. So if we can get this right, there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife.</p>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- RESIZABLE DRAGGABLE SPLITTER BAR -->
+        <div class="w-2 bg-zinc-200 cursor-col-resize flex items-center justify-center hover:bg-black active:bg-black transition-colors z-40 relative select-none shrink-0" id="resize-handle" title="Drag to adjust width">
+            <div class="w-[2px] h-6 bg-zinc-400 rounded-full"></div>
+        </div>
+
+        <!-- RIGHT PANEL: QUESTIONS PANEL -->
+        <div class="flex-1 h-full overflow-y-auto px-6 md:px-10 py-8 bg-white select-none" id="questions-panel">
+            
+            <!-- QUESTIONS FOR PASSAGE 1 -->
+            <div id="questions-content-0" class="questions-group-section block">
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 1–7</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                </div>
+
+                <div class="question-target border border-zinc-200 rounded p-6 mb-10 select-text" id="q-target-notes-p1">
+                    <h4 class="text-sm font-bold uppercase mb-4 tracking-wide pb-1.5 border-b border-zinc-200 text-black">The life and work of Georgia O’Keeffe</h4>
+                    
+                    <ul class="list-none pl-5 mt-2 space-y-6 text-sm leading-relaxed text-black select-text">
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-1">
+                            studied art, then worked as a <input type="text" id="blank-q1" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[1]" data-qnum="1"> in various places in the USA
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-2">
+                            created drawings using <input type="text" id="blank-q2" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[2]" data-qnum="2"> which were exhibited in New York City
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-3">
+                            moved to New York and became famous for her paintings of the city’s <input type="text" id="blank-q3" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[3]" data-qnum="3">
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-4">
+                            produced a series of innovative close-up paintings of <input type="text" id="blank-q4" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[4]" data-qnum="4">
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-5">
+                            went to New Mexico and was initially inspired to paint the many <input type="text" id="blank-q5" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[5]" data-qnum="5"> that could be found there
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-6">
+                            continued to paint various features that together formed the dramatic <input type="text" id="blank-q6" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[6]" data-qnum="6"> of New Mexico for over forty years
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                        <li class="relative before:content-['●'] before:absolute before:-left-5 before:top-0" id="q-target-7">
+                            travelled widely by plane in later years, and painted pictures of clouds and <input type="text" id="blank-q7" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-36 text-zinc-900 transition-colors" placeholder="[7]" data-qnum="7"> seen from above
+                            <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 8–13</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Do the following statements agree with the information given in Reading Passage 1?</p>
+                </div>
+
+                <!-- Q8-13 Block -->
+                <div class="space-y-6 mb-10">
+                    <!-- Q8 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-8" data-qnum="8">
+                        <div class="text-sm font-bold mb-3 select-text">8. Georgia O’Keeffe’s style was greatly influenced by the changing fashions in art over the seven decades of her career.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q8">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                    <!-- Q9 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-9" data-qnum="9">
+                        <div class="text-sm font-bold mb-3 select-text">9. When O’Keeffe finished high school, she had already made her mind up about the career that she wanted.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q9">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                    <!-- Q10 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-10" data-qnum="10">
+                        <div class="text-sm font-bold mb-3 select-text">10. Alfred Stieglitz first discovered O’Keeffe’s work when she sent some abstract drawings to his gallery in New York City.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q10">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                    <!-- Q11 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-11" data-qnum="11">
+                        <div class="text-sm font-bold mb-3 select-text">11. O’Keeffe was the subject of Stieglitz’s photographic work for many years.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q11">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                    <!-- Q12 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-12" data-qnum="12">
+                        <div class="text-sm font-bold mb-3 select-text">12. O’Keeffe’s paintings of the patio of her house in Abiquiú were among the artist’s favourite works.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q12">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                    <!-- Q13 -->
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-13" data-qnum="13">
+                        <div class="text-sm font-bold mb-3 select-text">13. O’Keeffe produced a greater quantity of work during the 1950s to 1970s than at any other time in her life.</div>
+                        <div class="flex flex-col sm:flex-row gap-2 mc-options-grid" data-question="q13">
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="TRUE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>TRUE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="FALSE"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>FALSE</span></button>
+                            <button type="button" class="mc-opt-btn select-text border border-zinc-300 rounded px-4 py-2.5 text-xs font-semibold hover:bg-zinc-100 transition-colors flex-1 flex items-center gap-2.5" data-val="NOT GIVEN"><span class="radio-circle w-4 h-4 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0"><span class="radio-dot w-2 h-2 rounded-full bg-black scale-0 transition-transform duration-150"></span></span><span>NOT GIVEN</span></button>
+                        </div>
+                        <div class="explanation hidden mt-4 pt-3 border-t border-zinc-200 text-xs leading-relaxed select-text"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTIONS FOR PASSAGE 2 -->
+            <div id="questions-content-1" class="questions-group-section hidden">
+                
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 14–17</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed mb-4">
+                        Reading Passage 2 has six paragraphs, A–F.<br>
+                        Which paragraph contains the following information?<br>
+                        <em>Match the statements with the correct paragraph (A-F).</em>
+                    </p>
+                </div>
+
+                <!-- TABLE/GRID STYLE FOR MATCHING PARAGRAPHS -->
+                <div class="overflow-x-auto border border-zinc-200 rounded mb-10">
+                    <table class="w-full text-left border-collapse text-xs select-none">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-200">
+                                <th class="p-4 font-bold text-zinc-700 w-3/5 min-w-[200px]">Statement</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">A</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">B</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">C</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">D</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">E</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-12">F</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200">
+                            <!-- Q14 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-14" data-qnum="14">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>14.</strong> how a type of plant functions as a natural protection for coastlines
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q14" data-val="F">F</button></td>
+                            </tr>
+                            <!-- Q15 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-15" data-qnum="15">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>15.</strong> a prediction about how long it could take to stop noticing the effects of climate change
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q15" data-val="F">F</button></td>
+                            </tr>
+                            <!-- Q16 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-16" data-qnum="16">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>16.</strong> a reference to the fact that a solution is particularly cost-effective
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q16" data-val="F">F</button></td>
+                            </tr>
+                            <!-- Q17 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-17" data-qnum="17">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>17.</strong> a mention of a technology used to locate areas most in need of intervention
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q17" data-val="F">F</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 18–22</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                </div>
+
+                <div class="space-y-6 mb-10 text-sm leading-relaxed text-black">
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-18">
+                        18. The stormwater-management programme in Miami Beach has involved the installation of efficient <input type="text" id="blank-q18" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-32 text-zinc-900 transition-colors" placeholder="[18]" data-qnum="18">.
+                        <div class="explanation hidden mt-3 pt-2 border-t border-zinc-200 text-xs text-zinc-500"></div>
+                    </div>
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-19">
+                        19. The construction of <input type="text" id="blank-q19" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-32 text-zinc-900 transition-colors" placeholder="[19]" data-qnum="19"> was the first stage of a project to ensure the success of mangroves in Indonesia.
+                        <div class="explanation hidden mt-3 pt-2 border-t border-zinc-200 text-xs text-zinc-500"></div>
+                    </div>
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-20">
+                        20. As a response to rising floodwaters in the Mekong Delta, a not-for-profit organisation has been building houses that can <input type="text" id="blank-q20" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-32 text-zinc-900 transition-colors" placeholder="[20]" data-qnum="20">.
+                        <div class="explanation hidden mt-3 pt-2 border-t border-zinc-200 text-xs text-zinc-500"></div>
+                    </div>
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-21">
+                        21. Rising sea levels in Bangladesh have made it necessary to introduce various <input type="text" id="blank-q21" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-32 text-zinc-900 transition-colors" placeholder="[21]" data-qnum="21"> that are suitable for areas of high salt content.
+                        <div class="explanation hidden mt-3 pt-2 border-t border-zinc-200 text-xs text-zinc-500"></div>
+                    </div>
+                    <div class="question-target border border-zinc-200 rounded p-5 hover:border-zinc-400 transition-colors" id="q-target-22">
+                        22. A project in LA has increased the number of <input type="text" id="blank-q22" class="input-blank inline-block border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-32 text-zinc-900 transition-colors" placeholder="[22]" data-qnum="22"> on the city’s streets.
+                        <div class="explanation hidden mt-3 pt-2 border-t border-zinc-200 text-xs text-zinc-500"></div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 23–26</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Look at the following statements (Questions 23-26) and the list of people below.<br>Match each statement with the correct person, A-E.</p>
+                </div>
+
+                <!-- LIST OF PEOPLE BOX -->
+                <div class="border border-zinc-300 rounded-lg p-5 bg-white mb-6 shadow-sm select-text">
+                    <h4 class="text-sm font-bold mb-4 text-black border-b border-zinc-200 pb-2">List of People</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6 text-sm font-semibold text-zinc-800">
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">A</span> Yanira Pineda</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">B</span> Susanna Tol</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">C</span> Elizabeth English</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">D</span> Raisa Chowdhury</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">E</span> Greg Spotts</div>
+                    </div>
+                </div>
+
+                <!-- TABLE/GRID STYLE FOR MATCHING INFORMATION -->
+                <div class="overflow-x-auto border border-zinc-200 rounded mb-10">
+                    <table class="w-full text-left border-collapse text-xs select-none">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-200">
+                                <th class="p-4 font-bold text-zinc-700 w-3/5 min-w-[200px]">Statement</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">A</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">B</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">C</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">D</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">E</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200">
+                            <!-- Q23 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-23" data-qnum="23">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>23.</strong> It is essential to adopt strategies which involve and help residents of the region.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q23" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q23" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q23" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q23" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q23" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q24 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-24" data-qnum="24">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>24.</strong> Interventions which reduce heat are absolutely vital for our survival in this location.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q24" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q24" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q24" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q24" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q24" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q25 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-25" data-qnum="25">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>25.</strong> More work will need to be done in future decades to deal with the impact of rising water levels.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q25" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q25" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q25" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q25" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q25" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q26 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-26" data-qnum="26">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>26.</strong> The number of locations requiring action to adapt to flooding has grown in recent years.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q26" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q26" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q26" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q26" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q26" data-val="E">E</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- PASSAGE 3 -->
+            <div id="questions-content-2" class="questions-group-section hidden">
+                
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 27–31</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed mb-4">
+                        Reading Passage 3 has seven paragraphs, A–G.<br>
+                        Which paragraph contains the following information?<br>
+                        <em>Match the statements with the correct paragraph (A-G). You may use any letter more than once.</em>
+                    </p>
+                </div>
+
+                <!-- TABLE/GRID STYLE FOR MATCHING PARAGRAPHS -->
+                <div class="overflow-x-auto border border-zinc-200 rounded mb-10">
+                    <table class="w-full text-left border-collapse text-xs select-none">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-200">
+                                <th class="p-4 font-bold text-zinc-700 w-3/5 min-w-[200px]">Statement</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">A</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">B</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">C</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">D</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">E</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">F</th>
+                                <th class="p-4 font-bold text-center text-zinc-700 w-10">G</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200">
+                            <!-- Q27 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-27" data-qnum="27">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>27.</strong> an example of how one predator has been protected by the introduction of livestock guard dogs
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="F">F</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q27" data-val="G">G</button></td>
+                            </tr>
+                            <!-- Q28 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-28" data-qnum="28">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>28.</strong> an optimistic suggestion about the possible positive developments in the use of livestock guard dogs
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="F">F</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q28" data-val="G">G</button></td>
+                            </tr>
+                            <!-- Q29 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-29" data-qnum="29">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>29.</strong> a description of how the methods used by livestock guard dogs help to keep predators away
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="F">F</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q29" data-val="G">G</button></td>
+                            </tr>
+                            <!-- Q30 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-30" data-qnum="30">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>30.</strong> claims by different academics that the use of livestock guard dogs is a successful way of protecting farmers’ herds
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="F">F</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q30" data-val="G">G</button></td>
+                            </tr>
+                            <!-- Q31 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-31" data-qnum="31">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>31.</strong> a reference to how livestock guard dogs gain their skills
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="E">E</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="F">F</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q31" data-val="G">G</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 32–36</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Look at the following statements (Questions 32-36) and the list of people below.<br>Match each statement with the correct person, A-E.</p>
+                </div>
+
+                <!-- LIST OF PEOPLE BOX -->
+                <div class="border border-zinc-300 rounded-lg p-5 bg-white mb-6 shadow-sm select-text">
+                    <h4 class="text-sm font-bold mb-4 text-black border-b border-zinc-200 pb-2">List of People</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6 text-sm font-semibold text-zinc-800">
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">A</span> Dan Macon</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">B</span> Silvia Ribeiro</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">C</span> Linda van Bommel</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">D</span> Julie Young</div>
+                        <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-black text-white flex items-center justify-center text-xs shrink-0">E</span> Bethany Smith</div>
+                    </div>
+                </div>
+
+                <!-- TABLE/GRID STYLE FOR MATCHING INFORMATION -->
+                <div class="overflow-x-auto border border-zinc-200 rounded mb-10">
+                    <table class="w-full text-left border-collapse text-xs select-none">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-200">
+                                <th class="p-4 font-bold text-zinc-700 w-3/5 min-w-[200px]">Statement</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">A</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">B</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">C</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">D</th>
+                                <th class="p-4 font-bold text-center text-black w-16 text-sm">E</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200">
+                            <!-- Q32 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-32" data-qnum="32">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>32.</strong> The use of guard dogs may save the lives of both livestock and wild animals.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q32" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q32" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q32" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q32" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q32" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q33 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-33" data-qnum="33">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>33.</strong> Claims of a change in behaviour from those using livestock guard dogs may not be totally accurate.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q33" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q33" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q33" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q33" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q33" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q34 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-34" data-qnum="34">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>34.</strong> There may be negative results if the use of livestock guard dogs is not sufficiently widespread.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q34" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q34" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q34" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q34" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q34" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q35 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-35" data-qnum="35">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>35.</strong> Livestock guard dogs are the best way of protecting farm animals, as long as the dogs are appropriately handled.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q35" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q35" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q35" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q35" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q35" data-val="E">E</button></td>
+                            </tr>
+                            <!-- Q36 -->
+                            <tr class="question-target hover:bg-zinc-50 transition-colors" id="q-target-36" data-qnum="36">
+                                <td class="p-4 font-medium text-zinc-900 select-text">
+                                    <strong>36.</strong> Teaching a livestock guard dog how to do its work needs a different focus from teaching a house guard dog.
+                                    <div class="explanation hidden mt-2 text-[11px] text-zinc-500"></div>
+                                </td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q36" data-val="A">A</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q36" data-val="B">B</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q36" data-val="C">C</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q36" data-val="D">D</button></td>
+                                <td class="p-4 text-center"><button class="table-opt-btn select-text w-6 h-6 rounded-full border border-zinc-300 text-[10px] font-bold hover:bg-zinc-100 transition-colors" data-question="q36" data-val="E">E</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-zinc-100 border border-zinc-200 p-4 rounded mb-8 select-text">
+                    <h3 class="text-sm font-bold uppercase mb-1">Questions 37–40</h3>
+                    <p class="text-xs text-zinc-700 leading-relaxed">Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                </div>
+
+                <div class="space-y-6 mb-10 text-sm leading-relaxed text-black">
+                    <div class="border border-zinc-200 rounded p-6 bg-white shadow-sm select-text">
+                        <h4 class="text-sm font-bold uppercase mb-4 tracking-wide pb-1.5 border-b border-zinc-200 text-black">Unintended ecological effects of using guard dogs</h4>
+                        <div class="leading-loose text-justify">
+                            In Namibia, livestock guard dogs have been used to protect domestic animals from attacks by cheetahs. This has led to a rise in the deaths of other predators, particularly 
+                            <span class="inline-block question-target" id="q-target-37">
+                                <input type="text" id="blank-q37" class="input-blank mx-1 border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-28 text-zinc-900 transition-colors" placeholder="[37]" data-qnum="37">
+                            </span>. 
+                            In addition, it has been suggested that the dogs could have 
+                            <span class="inline-block question-target" id="q-target-38">
+                                <input type="text" id="blank-q38" class="input-blank mx-1 border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-28 text-zinc-900 transition-colors" placeholder="[38]" data-qnum="38">
+                            </span> 
+                            which may affect other species, and that they may reduce the amount of 
+                            <span class="inline-block question-target" id="q-target-39">
+                                <input type="text" id="blank-q39" class="input-blank mx-1 border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-28 text-zinc-900 transition-colors" placeholder="[39]" data-qnum="39">
+                            </span> 
+                            available to certain wild animals. On the other hand, these dogs may help birds by protecting their nests. These might otherwise be threatened by predators such as 
+                            <span class="inline-block question-target" id="q-target-40">
+                                <input type="text" id="blank-q40" class="input-blank mx-1 border-b-2 border-black font-bold text-center px-2 py-0.5 outline-none bg-transparent w-28 text-zinc-900 transition-colors" placeholder="[40]" data-qnum="40">
+                            </span>.
+                        </div>
+                    </div>
+                    <!-- Explanations Container -->
+                    <div class="hidden flex-col gap-2 mt-4" id="summary-explanations">
+                        <div class="explanation text-xs text-zinc-500" id="expl-q37"></div>
+                        <div class="explanation text-xs text-zinc-500" id="expl-q38"></div>
+                        <div class="explanation text-xs text-zinc-500" id="expl-q39"></div>
+                        <div class="explanation text-xs text-zinc-500" id="expl-q40"></div>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON IS ONLY IN PASSAGE 3 -->
+                <div class="mt-12 flex justify-center pb-12">
+                    <button class="bg-black hover:bg-zinc-800 text-white font-bold tracking-wider uppercase text-sm px-10 py-4.5 rounded transition-colors flex items-center gap-2.5 border border-black shadow cursor-pointer" id="btn-submit-exam">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Test
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER NAV -->
+    <footer class="bg-zinc-100 border-t border-zinc-300 p-2 z-30 select-none shrink-0 flex items-center justify-center">
+        <div class="flex w-full gap-[1px] md:gap-1" id="nav-grid">
+            <!-- Javascript generates buttons 1 to 40 -->
+        </div>
+    </footer>
+
+    <!-- SCORE MODAL -->
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 select-none" id="score-modal">
+        <div class="bg-white p-10 rounded-xl border border-zinc-200 w-11/12 max-w-sm text-center shadow-2xl transform scale-95 transition-transform duration-300" id="score-modal-content">
+            
+            <div class="w-32 h-32 rounded-full bg-black text-white flex flex-col items-center justify-center mx-auto mb-6 border-4 border-white shadow-xl relative">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-zinc-300 absolute top-4">Band</div>
+                <div class="text-5xl font-extrabold mt-2 tracking-tighter" id="modal-band-score">0.0</div>
+            </div>
+            
+            <h2 class="text-xl font-extrabold uppercase tracking-widest mb-1 text-black">Test Complete</h2>
+            <div class="text-base font-bold text-zinc-800 mb-4 bg-zinc-100 py-2 rounded">Raw Score: <span id="modal-score" class="text-black">0/40</span></div>
+            
+            <p class="text-[13px] text-zinc-500 mb-8 leading-relaxed font-medium">Your practice test has been graded. Review your answers on the right panel to see detailed explanations.</p>
+            
+            <button class="bg-black hover:bg-zinc-800 text-white font-bold py-3.5 px-8 text-xs uppercase tracking-wider rounded w-full transition-colors cursor-pointer shadow-md" id="modal-close-btn">Review Answers</button>
+        </div>
+    </div>
+
+    <!-- FLOATING HIGHLIGHT SELECTION TOOL (COLORS) -->
+    <div id="highlight-menu" class="fixed hidden bg-black rounded py-1.5 px-3 shadow-lg z-[100] items-center gap-2.5 border border-zinc-800 select-none">
+        <button class="hl-color-btn w-6 h-6 rounded-full border-2 border-[#86efac] bg-[#bbf7d0] cursor-pointer hover:scale-110 transition-transform" data-color="#bbf7d0" title="Highlight Green"></button>
+        <button class="hl-color-btn w-6 h-6 rounded-full border-2 border-[#f9a8d4] bg-[#fbcfe8] cursor-pointer hover:scale-110 transition-transform" data-color="#fbcfe8" title="Highlight Pink"></button>
+        <button class="hl-color-btn w-6 h-6 rounded-full border-2 border-[#fde047] bg-[#fef08a] cursor-pointer hover:scale-110 transition-transform" data-color="#fef08a" title="Highlight Yellow"></button>
+        <div class="w-[1px] h-5 bg-zinc-600"></div>
+        <button class="text-white text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5 hover:opacity-80 transition-opacity" id="btn-clear-selection">
+            <i class="fa-solid fa-eraser"></i> Clear
+        </button>
+    </div>
+
+    <!-- JS LOGIC -->
+    <script>
+        const KEY_ANSWERS = {
+            q1: "teacher", q2: "charcoal", q3: "skyscrapers", q4: "flowers", q5: "bones", q6: "landscape", q7: "rivers",
+            q8: "FALSE", q9: "TRUE", q10: "FALSE", q11: "TRUE", q12: "NOT GIVEN", q13: "NOT GIVEN",
+            q14: "C", q15: "A", q16: "D", q17: "F",
+            q18: "pumps", q19: "dams", q20: "float", q21: "crops", q22: "trees",
+            q23: "B", q24: "E", q25: "A", q26: "C",
+            q27: "D", q28: "G", q29: "B", q30: "C", q31: "B",
+            q32: "D", q33: "E", q34: "B", q35: "C", q36: "A",
+            q37: "jackals", q38: "diseases", q39: "food", q40: "foxes"
+        };
+
+        const EXPLANATIONS = {
+            q1: `Paragraph 2: "became an art teacher and taught in elementary schools..."`,
+            q2: `Paragraph 3: "creating abstract compositions in charcoal"`,
+            q3: `Paragraph 5: "widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York"`,
+            q4: `Paragraph 5: "In her magnified images depicting flowers, begun in 1924, O'Keeffe brings the viewer right into the picture."`,
+            q5: `Paragraph 8: "at first, it was the numerous sun-bleached bones she came across... that sparked her imagination."`,
+            q6: `Paragraph 8: "However, it was the region's spectacular landscape... that held the artist's imagination for more than four decades."`,
+            q7: `Paragraph 10: "aerial views of rivers and expansive paintings of the sky"`,
+            q8: `FALSE - Paragraph 1 states "she remained independent from shifting art trends".`,
+            q9: `TRUE - Paragraph 2: "By the time she graduated from high school in 1905, she had determined to make her way as an artist."`,
+            q10: `FALSE - Paragraph 3: "She sent some of these drawings to a friend in New York, who showed them to art collector..." (She did not send them directly to him).`,
+            q11: `TRUE - Paragraph 4: "recorded in Stieglitz's celebrated black-and-white portraits of O'Keeffe, taken over the course of twenty years (1917-37)."`,
+            q12: `NOT GIVEN - Paragraph 9 says the patio was "particularly inspirational", but does not say it was among her "favourite" works.`,
+            q13: `NOT GIVEN - Paragraph 10 mentions the 1950s-70s and large canvases, but doesn't compare the total *quantity* of works produced to other times in her life.`,
+            
+            q14: `Paragraph C describes mangroves: "ecosystems of trees and shrubs that help defend coastal areas by trapping sediment...".`,
+            q15: `Paragraph A mentions scientists forecasting that "global warming would continue for around 40 years."`,
+            q16: `Paragraph D (Elizabeth English) says the floating technology is "much cheaper than permanently elevating houses – about a third of what it would cost...".`,
+            q17: `Paragraph F mentions: "Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover...".`,
+            
+            q18: `Paragraph B: "...the city has set up new pumps that can remove up to 75,000 litres of water per minute."`,
+            q19: `Paragraph C: Wetlands International "building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots".`,
+            q20: `Paragraph D: "Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float."`,
+            q21: `Paragraph E: "start cultivating naturally salt-tolerant crops in the region."`,
+            q22: `Paragraph F: The pilot projects "include the planting of trees and the installation of a 'cool pavement' system".`,
+            
+            q23: `Susanna Tol (B) in Para C: "critical that we transition towards multifunctional approaches... that engage and benefit communities and local decision-makers."`,
+            q24: `Greg Spotts (E) in Para F: "Urban cooling is literally a matter of life and death for our future in LA".`,
+            q25: `Yanira Pineda (A) in Para B: "We know that in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment".`,
+            q26: `Elizabeth English (C) in Para D: "this technology is becoming necessary in places that didn't previously need it".`,
+            
+            q27: `Paragraph D describes how introducing guard dogs reduced livestock losses and farmers became "less likely to kill predators" (specifically cheetahs in Namibia).`,
+            q28: `Paragraph G suggests a "bright future for guard dogs in promoting harmonious coexistence between humans and wildlife."`,
+            q29: `Paragraph B describes the methods: "place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators".`,
+            q30: `Paragraph C lists claims by academics Silvia Ribeiro and Linda van Bommel regarding the effectiveness of the dogs.`,
+            q31: `Paragraph B refers to their training: "raised from an early age with the animals they will be watching".`,
+            
+            q32: `Julie Young (D) in Para D: "There is common ground from the livestock perspective and from the conservation perspective... don't have a dead cow... will not make a call... to kill a wolf."`,
+            q33: `Bethany Smith (E) in Para E: "warned that such self-reported results must be taken with a pinch of salt."`,
+            q34: `Silvia Ribeiro (B) in Para E: "If we are not working with everybody, we are transferring the wolf pressure to the neighbour's herd and he can use poison...".`,
+            q35: `Linda van Bommel (C) in Para C: "If they are managed and used properly, livestock guard dogs are the most efficient control method...".`,
+            q36: `Dan Macon (A) in Para B: "too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog."`,
+            
+            q37: `Paragraph F: "the number of jackals killed by dogs and people actually increased."`,
+            q38: `Paragraph F: "They have been found to spread diseases to wild animals, including endangered Ethiopian wolves."`,
+            q39: `Paragraph F: "They may also compete with other carnivores for food."`,
+            q40: `Paragraph G: "protect birds which build their nests on the ground in fields, where foxes would normally raid them."`
+        };
+
+        let USER_ANSWERS = {};
+        for(let i = 1; i <= 40; i++) USER_ANSWERS[`q${i}`] = "";
+
+        // NAV GRID
+        const navGrid = document.getElementById('nav-grid');
+        for (let i = 1; i <= 40; i++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'nav-btn flex-1 h-7 sm:h-8 border border-zinc-300 rounded bg-white text-[9px] sm:text-[10px] font-bold text-zinc-800 flex items-center justify-center hover:bg-zinc-200 transition-colors cursor-pointer select-none min-w-[20px]';
+            btn.id = `nav-btn-q${i}`;
+            btn.textContent = i;
+            btn.setAttribute('data-q', i);
+            navGrid.appendChild(btn);
+        }
+
+        // TIMER
+        let timeLeft = 60 * 60;
+        let timerInterval = null;
+        let isTimerRunning = true;
+        const timerDisplay = document.getElementById('timer-display');
+        const btnPauseTimer = document.getElementById('btn-pause-timer');
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (!isTimerRunning) return;
+                timeLeft--;
+                timerDisplay.textContent = `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                if (timeLeft <= 300) document.getElementById('countdown-timer').classList.add('bg-white', 'text-black', 'border-black', 'animate-pulse');
+                if (timeLeft <= 0) { clearInterval(timerInterval); gradeTest(); }
+            }, 1000);
+        }
+
+        btnPauseTimer.addEventListener('click', () => {
+            isTimerRunning = !isTimerRunning;
+            btnPauseTimer.innerHTML = isTimerRunning ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+        });
+        startTimer();
+
+        // TABS
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const passages = document.querySelectorAll('.passage-content');
+        const questionSections = document.querySelectorAll('.questions-group-section');
+
+        function activateTab(index) {
+            tabButtons.forEach((btn, i) => btn.className = i === index ? "tab-btn active px-6 py-3 text-xs font-bold border-b-2 border-black uppercase tracking-wider text-black bg-white transition-all" : "tab-btn px-6 py-3 text-xs font-bold text-zinc-400 border-b-2 border-transparent uppercase tracking-wider hover:text-black hover:bg-zinc-200 transition-all");
+            passages.forEach((p, i) => i === index ? p.classList.remove('hidden') : p.classList.add('hidden'));
+            questionSections.forEach((q, i) => i === index ? q.classList.remove('hidden') : q.classList.add('hidden'));
+        }
+
+        tabButtons.forEach((btn, i) => btn.addEventListener('click', () => activateTab(i)));
+
+        // RECORD ANSWERS LOGIC
+        function updateNavBtnState(qKey, val) {
+            const navBtn = document.getElementById(`nav-btn-${qKey}`);
+            if (!navBtn) return;
+            if(navBtn.classList.contains('nav-correct') || navBtn.classList.contains('nav-wrong')) return;
+
+            if (val.trim() !== "") {
+                navBtn.classList.add('bg-zinc-800', 'text-white', 'border-zinc-800');
+                navBtn.classList.remove('bg-white', 'text-zinc-800', 'border-zinc-300');
+            } else {
+                navBtn.classList.remove('bg-zinc-800', 'text-white', 'border-zinc-800');
+                navBtn.classList.add('bg-white', 'text-zinc-800', 'border-zinc-300');
+            }
+        }
+
+        // Multiple choice & TFNG
+        document.querySelectorAll('.mc-options-grid').forEach(grid => {
+            const qKey = grid.getAttribute('data-question');
+            const buttons = grid.querySelectorAll('.mc-opt-btn');
+            buttons.forEach(btn => {
+                btn.classList.add('select-text');
+                btn.addEventListener('click', function() {
+                    if (window.getSelection().toString().trim() !== "") return; // Prevent click if highlighting text
+                    if (this.disabled) return;
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    USER_ANSWERS[qKey] = this.getAttribute('data-val');
+                    updateNavBtnState(qKey, USER_ANSWERS[qKey]);
+                });
+            });
+        });
+
+        // Table Matching
+        document.querySelectorAll('.table-opt-btn').forEach(btn => {
+            btn.classList.add('select-text');
+            btn.addEventListener('click', function() {
+                if (window.getSelection().toString().trim() !== "") return; // Prevent click if highlighting text
+                if (this.disabled) return;
+                const qKey = this.getAttribute('data-question');
+                document.querySelectorAll(`.table-opt-btn[data-question="${qKey}"]`).forEach(sib => {
+                    sib.classList.remove('bg-zinc-900', 'text-white', 'border-zinc-900');
+                    sib.classList.add('border-zinc-300', 'hover:bg-zinc-100');
+                });
+                this.classList.add('bg-zinc-900', 'text-white', 'border-zinc-900');
+                this.classList.remove('border-zinc-300', 'hover:bg-zinc-100');
+                USER_ANSWERS[qKey] = this.getAttribute('data-val');
+                updateNavBtnState(qKey, USER_ANSWERS[qKey]);
+            });
+        });
+
+        // Blanks
+        document.querySelectorAll('.input-blank').forEach(input => {
+            input.addEventListener('input', function() {
+                const qKey = `q${this.getAttribute('data-qnum')}`;
+                USER_ANSWERS[qKey] = this.value;
+                updateNavBtnState(qKey, this.value);
+            });
+        });
+
+        // NAV MAP SCROLL LINK
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetQNum = parseInt(this.getAttribute('data-q'));
+                let passageIdx = targetQNum <= 13 ? 0 : targetQNum <= 26 ? 1 : 2;
+                activateTab(passageIdx);
+
+                let targetElem = document.getElementById(`q-target-${targetQNum}`);
+                if (!targetElem) targetElem = document.getElementById(`q-target-notes-p1`);
+
+                if (targetElem) {
+                    const scrollContainer = document.getElementById('questions-panel');
+                    scrollContainer.scrollTo({ top: targetElem.offsetTop - 40, behavior: 'smooth' });
+                    targetElem.classList.add('highlight-scroll');
+                    setTimeout(() => targetElem.classList.remove('highlight-scroll'), 1200);
+                }
+            });
+        });
+
+        function calculateBandScore(score) {
+            if (score >= 39) return "9.0";
+            if (score >= 37) return "8.5";
+            if (score >= 35) return "8.0";
+            if (score >= 33) return "7.5";
+            if (score >= 30) return "7.0";
+            if (score >= 27) return "6.5";
+            if (score >= 23) return "6.0";
+            if (score >= 19) return "5.5";
+            if (score >= 15) return "5.0";
+            if (score >= 13) return "4.5";
+            if (score >= 10) return "4.0";
+            if (score >= 8) return "3.5";
+            if (score >= 6) return "3.0";
+            if (score >= 4) return "2.5";
+            if (score >= 2) return "2.0";
+            if (score === 1) return "1.0";
+            return "0.0";
+        }
+
+        // GRADING ENGINE
+        let hasGraded = false;
+        function gradeTest() {
+            if (hasGraded) return;
+            hasGraded = true;
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('btn-submit-exam').disabled = true;
+            document.getElementById('btn-submit-exam').classList.replace('hover:bg-zinc-800', 'opacity-50');
+            
+            let score = 0;
+
+            for (let i = 1; i <= 40; i++) {
+                const qKey = `q${i}`;
+                const userAns = (USER_ANSWERS[qKey] || "").trim();
+                const correctAns = KEY_ANSWERS[qKey];
+                
+                let isCorrect = userAns.toLowerCase() === correctAns.toLowerCase();
+                if (isCorrect) score++;
+
+                const navBtn = document.getElementById(`nav-btn-q${i}`);
+                navBtn.className = `nav-btn flex-1 min-w-0 h-7 sm:h-8 rounded text-[9px] sm:text-[10px] font-bold flex items-center justify-center cursor-pointer select-none transition-colors ${isCorrect ? 'nav-correct' : 'nav-wrong'}`;
+
+                const isMC = (i >= 8 && i <= 13);
+                const isTable = (i >= 14 && i <= 17) || (i >= 23 && i <= 26) || (i >= 27 && i <= 31) || (i >= 32 && i <= 36);
+                const isBlank = (i >= 1 && i <= 7) || (i >= 18 && i <= 22) || (i >= 37 && i <= 40);
+                
+                let targetCard = document.getElementById(`q-target-${i}`);
+                
+                let explBox = null;
+                if (targetCard) explBox = targetCard.querySelector('.explanation');
+                // Special handling for summary box in P3 (Q37-40)
+                if (!explBox && i >= 37 && i <= 40) {
+                    explBox = document.getElementById(`expl-q${i}`);
+                    document.getElementById('summary-explanations').classList.remove('hidden');
+                    document.getElementById('summary-explanations').classList.add('flex');
+                }
+                
+                if (explBox && EXPLANATIONS[qKey]) {
+                    explBox.classList.remove('hidden');
+                    explBox.innerHTML = `<strong>Q${i} Explanation:</strong> ${EXPLANATIONS[qKey]}`;
+                }
+
+                if (isMC) {
+                    const buttons = targetCard.querySelectorAll('.mc-opt-btn');
+                    buttons.forEach(btn => {
+                        const val = btn.getAttribute('data-val');
+                        btn.disabled = true; btn.classList.remove('active'); 
+                        
+                        let isThisBtnCorrect = (val === correctAns);
+
+                        if (isThisBtnCorrect) btn.classList.add('graded-correct');
+                        else if (val === userAns) btn.classList.add('graded-wrong');
+                    });
+                } 
+                else if (isTable) {
+                    const buttons = document.querySelectorAll(`.table-opt-btn[data-question="${qKey}"]`);
+                    buttons.forEach(btn => {
+                        const val = btn.getAttribute('data-val');
+                        btn.disabled = true;
+                        btn.classList.remove('bg-zinc-900', 'text-white', 'border-zinc-900');
+                        if (val === correctAns) {
+                            btn.className = "table-opt-btn w-6 h-6 rounded-full border border-green-600 bg-green-500 text-white text-[10px] font-bold";
+                        } else if (val === userAns) {
+                            btn.className = "table-opt-btn w-6 h-6 rounded-full border border-red-500 bg-red-100 text-red-600 line-through text-[10px] font-bold";
+                        } else {
+                            btn.classList.add('opacity-50');
+                        }
+                    });
+                }
+                else if (isBlank) {
+                    const input = document.getElementById(`blank-${qKey}`);
+                    if (input) {
+                        input.disabled = true;
+                        input.classList.remove('border-black', 'border-zinc-400', 'bg-transparent');
+                        if (isCorrect) {
+                            input.classList.add('input-correct');
+                        } else {
+                            input.classList.add('input-wrong');
+                            const corrElem = document.createElement('span');
+                            corrElem.className = 'ml-1 text-green-600 font-bold text-sm bg-green-50 px-2 py-0.5 rounded border border-green-200 shadow-sm align-middle';
+                            corrElem.innerText = correctAns;
+                            input.parentNode.insertBefore(corrElem, input.nextSibling);
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('modal-score').textContent = `${score}/40`;
+            document.getElementById('modal-band-score').textContent = calculateBandScore(score);
+            document.getElementById('score-modal').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('score-modal-content').classList.remove('scale-95');
+        }
+
+        document.getElementById('btn-submit-exam').addEventListener('click', gradeTest);
+        document.getElementById('modal-close-btn').addEventListener('click', () => {
+            document.getElementById('score-modal').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('score-modal-content').classList.add('scale-95');
+        });
+
+        // HIGHLIGHT SYSTEM (APPLIED TO BOTH PANELS + BUTTONS)
+        const passageContainer = document.getElementById('passage-container');
+        const questionsPanel = document.getElementById('questions-panel');
+        const highlightMenu = document.getElementById('highlight-menu');
+        
+        document.addEventListener('mouseup', (e) => {
+            // Only allow highlighting in passage or questions areas
+            if (!passageContainer.contains(e.target) && !questionsPanel.contains(e.target)) {
+                return;
+            }
+
+            setTimeout(() => {
+                const selection = window.getSelection();
+                if (selection.isCollapsed || selection.toString().trim() === "") {
+                    highlightMenu.style.display = 'none'; 
+                    return;
+                }
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                
+                // Position fixed works relative to viewport
+                highlightMenu.style.left = `${Math.max(10, rect.left + (rect.width / 2) - 65)}px`;
+                highlightMenu.style.top = `${Math.max(10, rect.top - 48)}px`;
+                highlightMenu.style.display = 'flex';
+            }, 10);
+        });
+
+        // Hide menu on scroll
+        passageContainer.addEventListener('scroll', () => highlightMenu.style.display = 'none');
+        questionsPanel.addEventListener('scroll', () => highlightMenu.style.display = 'none');
+
+        document.querySelectorAll('.hl-color-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const color = this.getAttribute('data-color');
+                const selection = window.getSelection();
+                if (!selection.rangeCount || selection.toString().trim() === "") return;
+                
+                const range = selection.getRangeAt(0);
+                const mark = document.createElement('mark');
+                mark.className = 'ielts-highlight'; 
+                mark.style.backgroundColor = color;
+                
+                // Allow removing highlight on click
+                mark.addEventListener('click', function(e) { 
+                    e.stopPropagation(); 
+                    this.replaceWith(...this.childNodes); 
+                });
+                
+                try { 
+                    range.surroundContents(mark); 
+                } catch (err) { 
+                    const frag = range.extractContents(); 
+                    mark.appendChild(frag); 
+                    range.insertNode(mark); 
+                }
+                
+                selection.removeAllRanges(); 
+                highlightMenu.style.display = 'none';
+            });
+        });
+
+        document.getElementById('btn-clear-selection').addEventListener('click', e => {
+            e.stopPropagation();
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            const parent = range.commonAncestorContainer;
+            const marks = (parent.nodeType === 1 ? parent : parent.parentNode).querySelectorAll('mark.ielts-highlight');
+            marks.forEach(mark => { if (selection.containsNode(mark, true)) mark.replaceWith(...mark.childNodes); });
+            selection.removeAllRanges(); 
+            highlightMenu.style.display = 'none';
+        });
+
+        document.addEventListener('mousedown', e => { 
+            if (!highlightMenu.contains(e.target) && e.target.nodeName !== 'MARK') {
+                highlightMenu.style.display = 'none'; 
+            }
+        });
+
+        // SPLITTER RESIZE CONTROLS
+        const resizeHandle = document.getElementById('resize-handle');
+        const workspaceContainer = document.getElementById('workspace-container');
+        let isResizing = false;
+
+        function startResize(e) { isResizing = true; resizeHandle.classList.add('bg-black'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+        function onResize(e) {
+            if (!isResizing) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const rect = workspaceContainer.getBoundingClientRect();
+            let newWidthPercent = ((clientX - rect.left) / rect.width) * 100;
+            passageContainer.style.width = `${Math.min(Math.max(newWidthPercent, 25), 75)}%`;
+        }
+        function stopResize() { if (isResizing) { isResizing = false; resizeHandle.classList.remove('bg-black'); document.body.style.cursor = ''; document.body.style.userSelect = ''; } }
+
+        resizeHandle.addEventListener('mousedown', startResize); document.addEventListener('mousemove', onResize); document.addEventListener('mouseup', stopResize);
+        resizeHandle.addEventListener('touchstart', startResize); document.addEventListener('touchmove', onResize); document.addEventListener('touchend', stopResize);
+    </script>
+</body>
+</html>
